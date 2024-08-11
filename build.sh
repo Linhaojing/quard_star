@@ -22,6 +22,13 @@ rm -rf ${cwd}/output/lowlevelboot/*
 cp lowlevel_boot.bin ${cwd}/output/lowlevelboot
 cd -
 
+cd ${cwd}/trusted_domain
+make clean
+make
+mkdir -p ${cwd}/output/trusted_domain
+rm -rf ${cwd}/output/trusted_domain/*
+cp trusted_domain.bin ${cwd}/output/trusted_domain
+cd -
 
 mkdir -p ${cwd}/output/opensbi
 rm -rf ${cwd}/output/opensbi/*
@@ -38,4 +45,5 @@ dd of=boot.bin bs=1k count=32k if=/dev/zero
 dd of=boot.bin bs=1k conv=notrunc seek=0 if=lowlevelboot/lowlevel_boot.bin
 dd of=boot.bin bs=1k conv=notrunc seek=512 if=opensbi/quard_star_sbi.dtb
 dd of=boot.bin bs=1k conv=notrunc seek=2k if=opensbi/fw_jump.bin
+dd of=boot.bin bs=1k conv=notrunc seek=4k if=trusted_domain/trusted_domain.bin
 cd -
